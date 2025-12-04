@@ -443,11 +443,25 @@
                         <button onclick="incrementQuantity('tortitas')">+</button>
                     </div>
                 </div>
+
+                <div class="product-item">
+                    <img src="imagenes/WhatsApp Image 2025-12-04 at 3.58.30 PM.jpeg" alt="Europa Pyro" class="product-image">
+                    <div class="product-info">
+                        <div class="product-name">🎇 Europa Pyro (Torta 19 tiros)</div>
+                        <div class="product-price">Torta 19 tiros la unidad $20.00 | 5 unidades a $18.50 c/u | Por las 12 valor por interno</div>
+                    </div>
+                    <div class="quantity-control">
+                        <button onclick="decrementQuantity('europa')">−</button>
+                        <input type="number" id="europa" value="0" min="0" onchange="updateTotal()">
+                        <button onclick="incrementQuantity('europa')">+</button>
+                    </div>
+                </div>
             </div>
 
             <div class="total-section">
                 <h3>💰 Total a Pagar</h3>
                 <div class="total-amount" id="total">$0.00</div>
+                <p style="margin-top:10px;font-size:0.9em;">🚚 Para pedidos mayores a $30 el envío es <strong>gratis</strong>.</p>
             </div>
 
             <div id="message"></div>
@@ -481,6 +495,7 @@
             const metralleta = parseInt(document.getElementById('metralleta').value) || 0;
             const velas = parseInt(document.getElementById('velas').value) || 0;
             const tortitas = parseInt(document.getElementById('tortitas').value) || 0;
+            const europa = parseInt(document.getElementById('europa').value) || 0;
 
             let total = 0;
             total += volcan * 0.50;
@@ -489,6 +504,7 @@
             total += metralleta * 3.00;
             total += velas * 2.50;
             total += tortitas * 5.00;
+            total += europa * 20.00;
 
             document.getElementById('total').textContent = '$' + total.toFixed(2);
         }
@@ -512,7 +528,7 @@
             const velas = parseInt(document.getElementById('velas').value) || 0;
             const tortitas = parseInt(document.getElementById('tortitas').value) || 0;
 
-            if (volcan === 0 && chispeador === 0 && poppop === 0 && metralleta === 0 && velas === 0 && tortitas === 0) {
+            if (volcan === 0 && chispeador === 0 && poppop === 0 && metralleta === 0 && velas === 0 && tortitas === 0 && europa === 0) {
                 showMessage('⚠️ Por favor selecciona al menos un producto', 'error');
                 return;
             }
@@ -536,6 +552,7 @@
             if (metralleta > 0) mensaje += `🔫 Mini Metralleta: ${metralleta} unidades ($${(metralleta * 3.00).toFixed(2)})%0A`;
             if (velas > 0) mensaje += `🎆 Velas Romanas: ${velas} paquetes ($${(velas * 2.50).toFixed(2)})%0A`;
             if (tortitas > 0) mensaje += `🎨 Mini Tortitas de Luces: ${tortitas} unidades ($${(tortitas * 5.00).toFixed(2)})%0A`;
+            if (europa > 0) mensaje += `🎇 Europa Pyro (Torta 19 tiros): ${europa} unidades ($${(europa * 20.00).toFixed(2)})%0A`;
 
             const total = document.getElementById('total').textContent;
             mensaje += `%0A💰 *TOTAL: ${total}*`;
