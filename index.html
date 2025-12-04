@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pedidos de Pirotecnia</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+
+        .whatsapp-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255,255,255,0.2);
+            padding: 8px 15px;
+            border-radius: 20px;
+            margin-top: 10px;
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        .customer-info {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+
+        .customer-info h2 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #e0e0e0;
+            border-radius: 5px;
+            font-size: 1em;
+            transition: border-color 0.3s;
+            background: white;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #25D366;
+        }
+
+        .form-group select {
+            cursor: pointer;
+        }
+
+        .products {
+            margin-bottom: 20px;
+        }
+
+        .section-title {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 1.4em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .product-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            margin-bottom: 10px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+            transition: transform 0.2s;
+            gap: 15px;
+        }
+
+        .product-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .product-image {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 2px solid #e0e0e0;
+            flex-shrink: 0;
+        }
+
+        .product-info {
+            flex: 1;
+        }
+
+        .product-name {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+            font-size: 1.05em;
+        }
+
+        .product-price {
+            color: #f5576c;
+            font-weight: 700;
+            font-size: 0.95em;
+        }
+
+        .quantity-control {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .quantity-control button {
+            width: 35px;
+            height: 35px;
+            border: none;
+            background: #667eea;
+            color: white;
+            border-radius: 50%;
+            font-size: 1.2em;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .quantity-control button:hover {
+            background: #5568d3;
+            transform: scale(1.1);
+        }
+
+        .quantity-control button:active {
+            transform: scale(0.95);
+        }
+
+        .quantity-control input {
+            width: 60px;
+            text-align: center;
+            padding: 8px;
+            border: 2px solid #e0e0e0;
+            border-radius: 5px;
+            font-weight: 600;
+        }
+
+        .total-section {
+            background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .total-section h3 {
+            font-size: 1.3em;
+            margin-bottom: 10px;
+        }
+
+        .total-amount {
+            font-size: 2.5em;
+            font-weight: bold;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.2em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(37, 211, 102, 0.4);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        .submit-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .message {
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .message.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .info-box {
+            background: #e8f5e9;
+            border-left: 4px solid #25D366;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        .info-box p {
+            color: #2e7d32;
+            margin: 0;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                border-radius: 0;
+            }
+
+            .header h1 {
+                font-size: 1.5em;
+            }
+
+            .content {
+                padding: 20px;
+            }
+
+            .product-item {
+                flex-wrap: wrap;
+                justify-content: center;
+                text-align: center;
+            }
+
+            .product-image {
+                width: 100%;
+                max-width: 150px;
+                height: 150px;
+                margin-bottom: 10px;
+            }
+
+            .product-info {
+                width: 100%;
+            }
+
+            .product-name {
+                font-size: 0.95em;
+            }
+
+            .product-price {
+                font-size: 0.85em;
+            }
+
+            .quantity-control {
+                margin-top: 10px;
+            }
+
+            .total-amount {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎆 Pedidos de Pirotecnia 🎆</h1>
+            <p>Realiza tu pedido y recibe confirmación instantánea</p>
+            <div class="whatsapp-badge">
+                <span>📱</span>
+                <span>Pedido directo a WhatsApp</span>
+            </div>
+        </div>
+
+        <div class="content">
+            <div class="info-box">
+                <p>✅ Tu pedido se enviará directamente a nuestro WhatsApp y te responderemos de inmediato</p>
+            </div>
+
+            <div class="customer-info">
+                <h2>📋 Datos del Cliente</h2>
+                <div class="form-group">
+                    <label for="nombre">Nombre Completo *</label>
+                    <input type="text" id="nombre" placeholder="Ej: Juan Pérez" required>
+                </div>
+                <div class="form-group">
+                    <label for="telefono">Teléfono *</label>
+                    <input type="tel" id="telefono" placeholder="Ej: 0999123456" required>
+                </div>
+                <div class="form-group">
+                    <label for="direccion">Dirección de Entrega *</label>
+                    <textarea id="direccion" rows="2" placeholder="Ej: Av. 6 de Diciembre y Eloy Alfaro" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="metodoPago">Método de Pago *</label>
+                    <select id="metodoPago" required>
+                        <option value="">Selecciona un método</option>
+                        <option value="efectivo">💵 Efectivo</option>
+                        <option value="transferencia">🏦 Transferencia Bancaria</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="comentarios">Comentarios Adicionales</label>
+                    <textarea id="comentarios" rows="2" placeholder="Horario preferido, referencias, etc."></textarea>
+                </div>
+            </div>
+
+            <h2 class="section-title">🎇 Productos Disponibles</h2>
+
+            <div class="products">
+                <div class="product-item">
+                    <img src="https://lh3.googleusercontent.com/d/10rPlTST0Fz7KsHCglTWb46P_q_iqlx6C" alt="Mini Volcanes" class="product-image">
+                    <div class="product-info">
+                        <div class="product-name">🌋 Mini Volcanes (Los Picapiedras)</div>
+                        <div class="product-price">3 UND $1.00 | Por unidad $0.50</div>
+                    </div>
+                    <div class="quantity-control">
+                        <button onclick="decrementQuantity('volcan')">−</button>
+                        <input type="number" id="volcan" value="0" min="0" onchange="updateTotal()">
+                        <button onclick="incrementQuantity('volcan')">+</button>
+                    </div>
+                </div>
+
+                <div class="product-item">
+                    <img src="https://lh3.googleusercontent.com/d/1cRwhod1wGaZPyLLAYz1uLeT1bRSx7CdU" alt="Chispeadores Torero" class="product-image">
+                    <div class="product-info">
+                        <div class="product-name">✨ Chispeadores Torero</div>
+                        <div class="product-price">Paquete de 12 cajitas (incluye gafas) $5.00 | Por unidad $0.50</div>
+                    </div>
+                    <div class="quantity-control">
+                        <button onclick="decrementQuantity('chispeador')">−</button>
+                        <input type="number" id="chispeador" value="0" min="0" onchange="updateTotal()">
+                        <button onclick="incrementQuantity('chispeador')">+</button>
+                    </div>
+                </div>
+
+                <div class="product-item">
+                    <img src="https://lh3.googleusercontent.com/d/13S9FPxEttVF82KQyvqvNBGSR6Tw1DxN3" alt="Pop Pop" class="product-image">
+                    <div class="product-info">
+                        <div class="product-name">💥 Pop Pop (Cebollitas)</div>
+                        <div class="product-price">10 cajitas de 50 UND por $5.00</div>
+                    </div>
+                    <div class="quantity-control">
+                        <button onclick="decrementQuantity('poppop')">−</button>
+                        <input type="number" id="poppop" value="0" min="0" onchange="updateTotal()">
+                        <button onclick="incrementQuantity('poppop')">+</button>
+                    </div>
+                </div>
+
+                <div class="product-item">
+                    <img src="https://lh3.googleusercontent.com/d/1oc7DZYk7F0ub3cZM7fQnlYwazCDNHrQX" alt="Mini Metralleta" class="product-image">
+                    <div class="product-info">
+                        <div class="product-name">🔫 Mini Metralleta</div>
+                        <div class="product-price">1 por $3.00 | 2 por $5.00 | Paquete de 12 (precios por interno)</div>
+                    </div>
+                    <div class="quantity-control">
+                        <button onclick="decrementQuantity('metralleta')">−</button>
+                        <input type="number" id="metralleta" value="0" min="0" onchange="updateTotal()">
+                        <button onclick="incrementQuantity('metralleta')">+</button>
+                    </div>
+                </div>
+
+                <div class="product-item">
+                    <img src="https://lh3.googleusercontent.com/d/1y2GCeDY9hVPNXl--Wiv-qf01JhNSLv2J" alt="Velas Romanas" class="product-image">
+                    <div class="product-info">
+                        <div class="product-name">🎆 Velas Romanas</div>
+                        <div class="product-price">Paquete 12 UND: 5 tiros $2.50 | 10 tiros $3.00 | 20 tiros $4.00</div>
+                    </div>
+                    <div class="quantity-control">
+                        <button onclick="decrementQuantity('velas')">−</button>
+                        <input type="number" id="velas" value="0" min="0" onchange="updateTotal()">
+                        <button onclick="incrementQuantity('velas')">+</button>
+                    </div>
+                </div>
+
+                <div class="product-item">
+                    <img src="https://lh3.googleusercontent.com/d/1cOceXgQq12mRrb_AGCWmdklixLxTDgWT" alt="Mini Tortitas de Luces" class="product-image">
+                    <div class="product-info">
+                        <div class="product-name">🎨 Mini Tortitas de Luces</div>
+                        <div class="product-price">96 tiros de luces por unidad $5.00</div>
+                    </div>
+                    <div class="quantity-control">
+                        <button onclick="decrementQuantity('tortitas')">−</button>
+                        <input type="number" id="tortitas" value="0" min="0" onchange="updateTotal()">
+                        <button onclick="incrementQuantity('tortitas')">+</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="total-section">
+                <h3>💰 Total a Pagar</h3>
+                <div class="total-amount" id="total">$0.00</div>
+            </div>
+
+            <div id="message"></div>
+
+            <button class="submit-btn" onclick="submitOrder()">
+                <span>📱</span>
+                <span>Enviar Pedido por WhatsApp</span>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        function incrementQuantity(id) {
+            const input = document.getElementById(id);
+            input.value = parseInt(input.value) + 1;
+            updateTotal();
+        }
+
+        function decrementQuantity(id) {
+            const input = document.getElementById(id);
+            if (parseInt(input.value) > 0) {
+                input.value = parseInt(input.value) - 1;
+                updateTotal();
+            }
+        }
+
+        function updateTotal() {
+            const volcan = parseInt(document.getElementById('volcan').value) || 0;
+            const chispeador = parseInt(document.getElementById('chispeador').value) || 0;
+            const poppop = parseInt(document.getElementById('poppop').value) || 0;
+            const metralleta = parseInt(document.getElementById('metralleta').value) || 0;
+            const velas = parseInt(document.getElementById('velas').value) || 0;
+            const tortitas = parseInt(document.getElementById('tortitas').value) || 0;
+
+            let total = 0;
+            total += volcan * 0.50;
+            total += chispeador * 0.50;
+            total += poppop * 5.00;
+            total += metralleta * 3.00;
+            total += velas * 2.50;
+            total += tortitas * 5.00;
+
+            document.getElementById('total').textContent = '$' + total.toFixed(2);
+        }
+
+        function submitOrder() {
+            const nombre = document.getElementById('nombre').value.trim();
+            const telefono = document.getElementById('telefono').value.trim();
+            const direccion = document.getElementById('direccion').value.trim();
+            const metodoPago = document.getElementById('metodoPago').value;
+            const comentarios = document.getElementById('comentarios').value.trim();
+
+            if (!nombre || !telefono || !direccion || !metodoPago) {
+                showMessage('⚠️ Por favor completa todos los campos obligatorios', 'error');
+                return;
+            }
+
+            const volcan = parseInt(document.getElementById('volcan').value) || 0;
+            const chispeador = parseInt(document.getElementById('chispeador').value) || 0;
+            const poppop = parseInt(document.getElementById('poppop').value) || 0;
+            const metralleta = parseInt(document.getElementById('metralleta').value) || 0;
+            const velas = parseInt(document.getElementById('velas').value) || 0;
+            const tortitas = parseInt(document.getElementById('tortitas').value) || 0;
+
+            if (volcan === 0 && chispeador === 0 && poppop === 0 && metralleta === 0 && velas === 0 && tortitas === 0) {
+                showMessage('⚠️ Por favor selecciona al menos un producto', 'error');
+                return;
+            }
+
+            let mensaje = `🎆 *NUEVO PEDIDO DE PIROTECNIA* 🎆%0A%0A`;
+            mensaje += `👤 *DATOS DEL CLIENTE:*%0A`;
+            mensaje += `Nombre: ${encodeURIComponent(nombre)}%0A`;
+            mensaje += `Teléfono: ${telefono}%0A`;
+            mensaje += `Dirección: ${encodeURIComponent(direccion)}%0A`;
+            
+            const metodoPagoTexto = metodoPago === 'efectivo' ? '💵 Efectivo' : '🏦 Transferencia Bancaria';
+            mensaje += `Método de Pago: ${metodoPagoTexto}%0A`;
+            
+            if (comentarios) mensaje += `Comentarios: ${encodeURIComponent(comentarios)}%0A`;
+            
+            mensaje += `%0A🛒 *PRODUCTOS:*%0A`;
+
+            if (volcan > 0) mensaje += `🌋 Mini Volcanes: ${volcan} unidades ($${(volcan * 0.50).toFixed(2)})%0A`;
+            if (chispeador > 0) mensaje += `✨ Chispeadores Torero: ${chispeador} unidades ($${(chispeador * 0.50).toFixed(2)})%0A`;
+            if (poppop > 0) mensaje += `💥 Pop Pop: ${poppop} paquetes ($${(poppop * 5.00).toFixed(2)})%0A`;
+            if (metralleta > 0) mensaje += `🔫 Mini Metralleta: ${metralleta} unidades ($${(metralleta * 3.00).toFixed(2)})%0A`;
+            if (velas > 0) mensaje += `🎆 Velas Romanas: ${velas} paquetes ($${(velas * 2.50).toFixed(2)})%0A`;
+            if (tortitas > 0) mensaje += `🎨 Mini Tortitas de Luces: ${tortitas} unidades ($${(tortitas * 5.00).toFixed(2)})%0A`;
+
+            const total = document.getElementById('total').textContent;
+            mensaje += `%0A💰 *TOTAL: ${total}*`;
+
+            const whatsappURL = `https://wa.me/593967463004?text=${mensaje}`;
+            window.open(whatsappURL, '_blank');
+        }
+
+        function showMessage(text, type) {
+            const messageDiv = document.getElementById('message');
+            messageDiv.textContent = text;
+            messageDiv.className = `message ${type}`;
+            setTimeout(() => {
+                messageDiv.textContent = '';
+                messageDiv.className = '';
+            }, 5000);
+        }
+    </script>
+</body>
+</html>
